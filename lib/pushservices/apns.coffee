@@ -31,7 +31,9 @@ class PushServiceAPNS
             device.subscriberId = subscriber.id # used for error logging
             if subOptions?.ignore_message isnt true and alert = payload.localizedMessage(info.lang)
                 note.alert = alert
-            note.badge = badge if not isNaN(badge = parseInt(info.badge) + 1)
+#            note.badge = badge if not isNaN(badge = parseInt(info.badge) + 1)
+            note.badge = parseInt(payload.badge)
+
             note.sound = payload.sound
             if @payloadFilter?
                 for key, val of payload.data

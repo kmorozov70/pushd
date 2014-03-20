@@ -53,6 +53,9 @@ class PushServiceGCM
 
     handleResult: (result, subscriber) ->
         if result.messageId or result.message_id
+         if result.canonicalRegistrationId
+                @logger?.warn("GCM Automatic unregistration for subscriber #{subscriber.id}")
+                subscriber.delete()
             # if result.canonicalRegistrationId
                 # TODO: update subscriber token
         else

@@ -12,6 +12,7 @@ class Payload
         @msg = {}
         @data = {}
         @var = {}
+        @badge = {}
 
         # Read fields
         for own key, value of data
@@ -24,6 +25,7 @@ class Payload
                 when 'title' then @title.default = value
                 when 'msg' then @msg.default = value
                 when 'sound' then @sound = value
+                when 'badge' then @badge = value
                 else
                     if ([prefix, subkey] = key.split('.', 2)).length is 2
                         @[prefix][subkey] = value
@@ -32,9 +34,9 @@ class Payload
 
         # Detect empty payload
         sum = 0
-        sum += (key for own key of @[type]).length for type in ['title', 'msg', 'data']
+        sum += (key for own key of @[type]).length for type in ['title', 'msg', 'data', 'badge']
         if sum is 0 then throw new Error('Empty payload')
-
+ 
     localizedTitle: (lang) ->
         @localized('title', lang)
 
@@ -75,6 +77,5 @@ class Payload
         if not @[prefix][key]?
             throw new Error("The ${#{keyPath}} does not exist")
         return @[prefix][key]
-
 
 exports.Payload = Payload
